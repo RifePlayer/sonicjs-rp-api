@@ -23,6 +23,7 @@ import {
   getOperationCreateResult,
   hasUser
 } from '../auth/auth-helpers';
+import { log } from '../util/logger';
 
 const authAPI = new Hono<{ Bindings: Bindings; Variables: Variables }>();
 authAPI.use('*', async (ctx, next) => {
@@ -221,6 +222,9 @@ authAPI.post(`/users/:setup?`, async (ctx) => {
   content.data.role = content.data.role ?? 'admin';
 
   delete content.data.submit;
+
+  log(ctx, { level: 'info', method: '/users/setup', content });
+
   if (
     content.data?.confirmPassword &&
     content.data?.confirmPassword !== content.data?.password
@@ -414,10 +418,15 @@ authAPI.put(`/users/:id`, async (ctx) => {
 
 authAPI.post('/login', async (ctx) => {
   const content = await ctx.req.json();
+
+  log(ctx, { level: 'info', method: '/login', content });
+
   return await login({ ctx, content });
 });
 
 authAPI.get('/logout', async (ctx) => {
+  log(ctx, { level: 'info', method: '/logout' });
+
   return await logout(ctx);
 });
 
