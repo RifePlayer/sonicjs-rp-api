@@ -1,5 +1,9 @@
 import { Context, Env, Hono } from 'hono';
-import { getPrograms, checkUserExists } from './rife-player-data';
+import {
+  getPrograms,
+  checkUserExists,
+  processStripeWebhook
+} from './rife-player-data';
 import { insertRecord } from '../cms/data/data';
 import { sendEmail } from './send-email';
 // import stripe from 'stripe';
@@ -24,46 +28,7 @@ rifePlayerApi.get('/check-user-exists/:email', async (ctx) => {
 
 // stripe handler
 rifePlayerApi.post(`/stripe-rp-webhook`, async (ctx) => {
-  console.log('processing new stripe webhook')
-  const stipeSecret = ctx.env.STRIPE_ENDPOINT_SECRET;
-
-  console.log('sec', stipeSecret)
-  const sig = ctx.req.header('stripe-signature');
-
-  console.log('sig', sig)
-
-  let event;
-
-  try {
-    const stripe = require('stripe')(ctx.env.STRIPE_KEY)
-
-    const body = await ctx.req.json();
-    event = await stripe.webhooks.constructEventAsync(body, sig, stipeSecret);
-    
-    console.log(event);
-  } catch (err) {
-    return ctx.json(`Webhook Error: ${err.message}`,400);
-  }
-
-  // Handle the event
-  switch (event.type) {
-    case 'payment_intent.succeeded':
-      const paymentIntent = event.data.object;
-      // Then define and call a method to handle the successful payment intent.
-      // handlePaymentIntentSucceeded(paymentIntent);
-      break;
-    case 'payment_method.attached':
-      const paymentMethod = event.data.object;
-      // Then define and call a method to handle the successful attachment of a PaymentMethod.
-      // handlePaymentMethodAttached(paymentMethod);
-      break;
-    // ... handle other event types
-    default:
-      console.log(`Unhandled event type ${event.type}`);
-  }
-
-  // Return a response to acknowledge receipt of the event
-  return ctx.json({ received: true });
+  return await processStripeWebhook(ctx);
 });
 
 rifePlayerApi.post('/contact-submit', async (ctx) => {
