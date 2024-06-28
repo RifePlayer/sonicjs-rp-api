@@ -25,7 +25,7 @@ export type AppContext = Context<{ Bindings: Bindings; Variables: Variables }>;
 
 app.use('*', async (ctx, next) => {
   const path = ctx.req.path;
-  if (!path.includes('/public')) {
+  if (!path.includes('/public') && !path.includes('stripe')) {
     const auth = initializeLucia(ctx.env.D1DATA, ctx.env);
     const authRequest = auth.handleRequest(ctx);
     let session = await authRequest.validate();
