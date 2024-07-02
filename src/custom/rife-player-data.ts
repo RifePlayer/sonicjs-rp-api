@@ -65,13 +65,13 @@ export async function processStripeWebhook(ctx) {
     // const jsonBody = JSON.parse(body)
 
     // console.log('jsonBody', jsonBody);
-    const raw = await ctx.req.raw.body
+    // const raw = await ctx.req.raw.body
     // const rawFull = await ctx.req.raw;
     // const text = await ctx.req.text()
     // const raw = await ctx.req.parseBody();
-    // const text = await ctx.req.text()
+    const text = await ctx.req.text()
 
-    event = await stripe.webhooks.constructEventAsync(raw, sig, stipeSecret);
+    event = await stripe.webhooks.constructEventAsync(text, sig, stipeSecret);
 
     console.log(event);
   } catch (err) {
