@@ -26,11 +26,6 @@ rifePlayerApi.get('/check-user-exists/:email', async (ctx) => {
   return ctx.json(data);
 });
 
-// stripe handler
-rifePlayerApi.post(`/stripe-rp-webhook`, async (ctx) => {
-  return await processStripeWebhook(ctx);
-});
-
 rifePlayerApi.post('/contact-submit', async (ctx) => {
   console.log('contact processing ');
   const payload = await ctx.req.json();

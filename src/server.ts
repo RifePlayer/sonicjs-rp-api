@@ -13,6 +13,7 @@ import { tusAPI } from './cms/api/tus';
 import { AuthRequest, Session, User } from 'lucia';
 import { initializeLucia } from './cms/auth/lucia';
 import { rifePlayerApi } from './custom/rife-player-api';
+import { stripeApi } from './custom/stripe-api';
 
 export type Variables = {
   authRequest: AuthRequest;
@@ -22,6 +23,8 @@ export type Variables = {
 const app = new Hono<{ Bindings: Bindings; Variables: Variables }>();
 
 export type AppContext = Context<{ Bindings: Bindings; Variables: Variables }>;
+
+app.route('/v1', stripeApi);
 
 app.use('*', async (ctx, next) => {
   const path = ctx.req.path;
