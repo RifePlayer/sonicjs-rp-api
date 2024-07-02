@@ -65,9 +65,9 @@ export async function processStripeWebhook(ctx) {
     // const jsonBody = JSON.parse(body)
 
     // console.log('jsonBody', jsonBody);
-    const raw = await ctx.req.raw.body.toString();
-    const rawFull = await ctx.req.raw;
-    const text = await ctx.req.text()
+    // const raw = await ctx.req.raw.body.toString();
+    // const rawFull = await ctx.req.raw;
+    // const text = await ctx.req.text()
     // const raw = await ctx.req.parseBody();
     // const text = await ctx.req.text()
 
