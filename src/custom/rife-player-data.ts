@@ -47,7 +47,7 @@ export async function checkUserExists(ctx, email) {
 }
 
 export async function processStripeWebhook(ctx) {
-  console.log('processing new stripe webhook');
+  console.log('processing new stripe webhook 7/2');
   const stipeSecret = ctx.env.STRIPE_ENDPOINT_SECRET;
 
   console.log('sec', stipeSecret);
