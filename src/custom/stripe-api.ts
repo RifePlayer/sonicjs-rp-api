@@ -7,4 +7,8 @@ stripeApi.post(`/stripe-rp-webhook`, async (ctx) => {
   return await processStripeWebhook(ctx);
 });
 
+stripeApi.get(`/stripe-rp-webhook`, (ctx) => {
+  return ctx.json({ received: true });
+});
+
 export { stripeApi };

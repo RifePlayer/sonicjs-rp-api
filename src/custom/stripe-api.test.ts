@@ -14,7 +14,7 @@ it('rp controller sanity', async () => {
 
   // await migrateData(ctx, 20);
 
-  let req = new Request('http://localhost/v2', {
+  let req = new Request('http://localhost/v1/stripe-rp-webhook', {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
   });
