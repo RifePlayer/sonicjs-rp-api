@@ -24,7 +24,7 @@ const app = new Hono<{ Bindings: Bindings; Variables: Variables }>();
 
 export type AppContext = Context<{ Bindings: Bindings; Variables: Variables }>;
 
-app.route('/v1', stripeApi);
+// app.route('/v1', stripeApi);
 
 app.use('*', async (ctx, next) => {
   const path = ctx.req.path;
