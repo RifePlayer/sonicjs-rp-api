@@ -46,4 +46,65 @@ export async function checkUserExists(ctx, email) {
   return records.data[0].count > 0;
 }
 
+export async function processStripeWebhook(ctx) {
+  console.log('processing new stripe webhook 7/2');
+  const stipeSecret = ctx.env.STRIPE_ENDPOINT_SECRET;
+
+  console.log('sec', stipeSecret);
+  const sig = ctx.req.header('stripe-signature');
+
+  console.log('sig', sig);
+
+  let event;
+
+  try {
+    const stripe = require('stripe')(ctx.env.STRIPE_KEY);
+
+    // const json = await ctx.req.json();
+    // const body = await ctx.huhreq.text()
+    // const jsonBody = JSON.parse(body)
+
+    // console.log('jsonBody', jsonBody);
+    // const raw = await ctx.req.raw.body
+    // const rawFull = await ctx.req.raw;
+    const text = await ctx.req.text()
+    // const raw = await ctx.req.parseBody();
+    // const text = await ctx.req.text()
+
+    // const bodyArrayBuffer = await ctx.req.arrayBuffer();
+    // const bodyRaw = Buffer.from(new Uint8Array(bodyArrayBuffer));
+    // const bodyRaw = await ctx.req.blob()
+
+    event = await stripe.webhooks.constructEventAsync(
+      text,
+      sig,
+      stipeSecret
+    );
+
+    console.log(event);
+  } catch (err) {
+    return ctx.json(`Webhook Error: ${err.message}`, 400);
+  }
+
+  // Handle the event
+  switch (event.type) {
+    case 'payment_intent.succeeded':
+      const paymentIntent = event.data.object;
+      // Then define and call a method to handle the successful payment intent.
+      // handlePaymentIntentSucceeded(paymentIntent);
+      break;
+    case 'payment_method.attached':
+      const paymentMethod = event.data.object;
+      // Then define and call a method to handle the successful attachment of a PaymentMethod.
+      // handlePaymentMethodAttached(paymentMethod);
+      break;
+    // ... handle other event types
+    default:
+      console.log(`Unhandled event type ${event.type}`);
+  }
+
+  // Return a response to acknowledge receipt of the event
+  return ctx.json({ received: true });
+}
+
 function getProgramsWithJson(ctx) {}
