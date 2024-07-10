@@ -49,16 +49,19 @@ export async function checkUserExists(ctx, email) {
 export async function processStripeWebhook(ctx) {
   console.log('processing new stripe webhook 7/2');
   const stipeSecret = ctx.env.STRIPE_ENDPOINT_SECRET;
-
+  const stripeKey = ctx.env.STRIPE_KEY;
   console.log('sec', stipeSecret);
   const sig = ctx.req.header('stripe-signature');
 
   console.log('sig', sig);
+  console.log('STRIPE_KEY', stripeKey);
+  console.log('STRIPE_ENDPOINT_SECRET', stipeSecret);
+
 
   let event;
 
   try {
-    const stripe = require('stripe')(ctx.env.STRIPE_KEY);
+    const stripe = require('stripe')(stripeKey);
 
     // const json = await ctx.req.json();
     // const body = await ctx.huhreq.text()
