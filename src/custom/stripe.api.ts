@@ -7,8 +7,8 @@ const stripeApi = new Hono();
 //   return await processStripeWebhook(ctx);
 // });
 
-// stripeApi.get(`/stripe-rp-webhook`, (ctx) => {
-//   return ctx.json({ received: true });
-// });
+stripeApi.get(`/stripe-rp-webhook`, (ctx) => {
+  return ctx.json({ received: true });
+});
 
 export { stripeApi };
