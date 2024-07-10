@@ -5,16 +5,16 @@ import Stripe from 'stripe'
 
 const stripeApi = new Hono();
 
-stripeApi.post(`/stripe-rp-webhook`, async (ctx) => {
-  return await processStripeWebhook(ctx);
-});
+// stripeApi.post(`/stripe-rp-webhook`, async (ctx) => {
+//   return await processStripeWebhook(ctx);
+// });
 
 stripeApi.get(`/stripe-rp-webhook`, (ctx) => {
   return ctx.json({ received: true });
 });
 
 
-stripeApi.post('/stripe-rp-webhook2', async (context) => {
+stripeApi.post('/stripe-rp-webhook', async (context) => {
   const { STRIPE_SECRET_API_KEY, STRIPE_WEBHOOK_SECRET } =
     env(context)
   const stripe = new Stripe(STRIPE_SECRET_API_KEY)
@@ -35,8 +35,8 @@ stripeApi.post('/stripe-rp-webhook2', async (context) => {
       STRIPE_WEBHOOK_SECRET
     )
     switch (event.type) {
-      case 'payment_intent.created': {
-        console.log(event.data.object)
+      case 'invoice.paid': {
+        console.log('invoice.paid', event.data.object)
         break
       }
       default:
@@ -53,3 +53,11 @@ stripeApi.post('/stripe-rp-webhook2', async (context) => {
 })
 
 export { stripeApi };
+
+
+//events
+
+// invoice.paid	
+
+// invoice.payment_failed
+
