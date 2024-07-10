@@ -50,7 +50,6 @@ export async function processStripeWebhook(ctx) {
   console.log('processing new stripe webhook 7/2');
   const stipeSecret = ctx.env.STRIPE_ENDPOINT_SECRET;
   const stripeKey = ctx.env.STRIPE_KEY;
-  console.log('sec', stipeSecret);
   const sig = ctx.req.header('stripe-signature');
 
   console.log('sig', sig);
