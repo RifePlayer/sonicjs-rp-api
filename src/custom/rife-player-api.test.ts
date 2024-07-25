@@ -4,7 +4,7 @@ import { drizzle } from 'drizzle-orm/d1';
 
 import { getRecords, insertRecord } from '../cms/data/data';
 import { migrateData } from './migrate-data';
-import { insertD1Data } from '../cms/data/d1-data';
+import { getD1DataByTable, insertD1Data } from '../cms/data/d1-data';
 import { createUserTestTables, getTestingContext } from '../cms/util/testing';
 
 const ctx = getTestingContext();
@@ -48,7 +48,7 @@ it('check user exists true', async () => {
     id: '1'
   });
 
-  let req = new Request('http://localhost/v2/check-user-exists/a%40a.com', {
+  let req = new Request('http://localhost/v2/check-user-exists/A%40a.com', {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
   });
@@ -58,7 +58,7 @@ it('check user exists true', async () => {
   expect(body).toBe(true);
 });
 
-it('check user exists true', async () => {
+it('check user exists false', async () => {
   await createUserTestTables(ctx);
 
   const rec1 = await insertD1Data(ctx.env.D1DATA, ctx.env.KVDATA, 'users', {
@@ -67,7 +67,7 @@ it('check user exists true', async () => {
     id: '1'
   });
 
-  let req = new Request('http://localhost/v2/check-user-exists/b%40b.com', {
+  let req = new Request('http://localhost/v2/check-user-exists/B%40b.com', {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
   });

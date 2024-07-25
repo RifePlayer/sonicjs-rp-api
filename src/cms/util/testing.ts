@@ -131,7 +131,8 @@ async function createUserTestTable1(ctx) {
         password text,
         role text,
         createdOn integer,
-        updatedOn integer
+        updatedOn integer,
+        plan text
       );
       `);
   console.log('creating test table end');

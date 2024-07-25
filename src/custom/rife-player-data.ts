@@ -28,7 +28,7 @@ export async function getPrograms(ctx) {
 
 export async function checkUserExists(ctx, email) {
   const fn = async function () {
-    const sql = `SELECT count(*) as count FROM users WHERE email = '${email}';`;
+    const sql = `SELECT count(*) as count FROM users WHERE email = '${email}' COLLATE NOCASE;`;
     const { results } = await ctx.env.D1DATA.prepare(sql).all();
 
     return results;
