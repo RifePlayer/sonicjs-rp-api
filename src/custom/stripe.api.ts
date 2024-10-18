@@ -13,7 +13,6 @@ stripeApi.get(`/stripe-rp-webhook`, (ctx) => {
   return ctx.json({ received: true });
 });
 
-
 stripeApi.post('/stripe-rp-webhook', async (context) => {
   const { STRIPE_SECRET_API_KEY, STRIPE_WEBHOOK_SECRET } =
     env(context)
