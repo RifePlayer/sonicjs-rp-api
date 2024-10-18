@@ -29,10 +29,10 @@ rifePlayerApi.post(`/stripe-rp-webhook`, async (ctx) => {
   log(ctx, {message: 'processing new stripe webhook'})
   const stipeSecret = ctx.env.STRIPE_ENDPOINT_SECRET;
 
-  // console.log('sec', stipeSecret)
+  console.log('sec', stipeSecret)
   const sig = ctx.req.header('stripe-signature');
 
-  // console.log('sig', sig)
+  console.log('sig', sig)
 
   let event;
 
