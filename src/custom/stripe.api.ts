@@ -35,13 +35,12 @@ stripeApi.post('/stripe-rp-webhook', async (context) => {
       signature,
       STRIPE_WEBHOOK_SECRET
     );
-    
+
     log(context, event.data.object);
 
     switch (event.type) {
       case 'invoice.paid': {
         console.log(event.data.object);
-        log(context, {message: 'invoice.paid', event.data.object});
         log(context, {message: 'invoice.paid email', event.data.object.customer_email});
         break;
       }
