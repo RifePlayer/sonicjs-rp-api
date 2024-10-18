@@ -41,18 +41,15 @@ stripeApi.post('/stripe-rp-webhook', async (context) => {
     switch (event.type) {
       case 'invoice.paid': {
         console.log(event.data.object);
-        log(context, {message: 'invoice.paid email', event.data.object.customer_email});
+        log(context, {message: `invoice.paid email', ${event.data.object.customer_email}`});
         break;
       }
       case 'customer.subscription.created': {
-        log(context, {message: 'ustomer.subscription.created', event.data.object});
-        log(context, {message: 'invoice.paid email', event.data.object.customer_email});
-        console.log('customer.subscription.created email', event.data.object)
+        log(context, {message: `customer.subscription.created', ${event.data.object.customer_email}`});
         break
       }
       default:
         log(context, { message: `Unhandled event type: ${event.type}, ` });
-
         console.log('event--->', event);
         break;
     }
