@@ -40,8 +40,8 @@ stripeApi.post('/stripe-rp-webhook', async (context) => {
         break;
       }
       default:
-        log(ctx, { message: `Unhandled event type: ${event.type}, ` });
-        log(ctx, { message: `${event}` });
+        log(context, { message: `Unhandled event type: ${event.type}, ` });
+        log(context, { message: `${event}` });
         break;
     }
     return context.text('', 200);
