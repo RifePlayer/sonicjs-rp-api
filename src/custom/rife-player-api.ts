@@ -2,6 +2,7 @@ import { Context, Env, Hono } from 'hono';
 import { getPrograms, checkUserExists } from './rife-player-data';
 import { insertRecord } from '../cms/data/data';
 import { sendEmail } from './send-email';
+import { log } from '../cms/util/logger';
 // import stripe from 'stripe';
 
 const rifePlayerApi = new Hono();
@@ -24,13 +25,14 @@ rifePlayerApi.get('/check-user-exists/:email', async (ctx) => {
 
 // stripe handler
 rifePlayerApi.post(`/stripe-rp-webhook`, async (ctx) => {
-  console.log('processing new stripe webhook')
+
+  log('processing new stripe webhook')
   const stipeSecret = ctx.env.STRIPE_ENDPOINT_SECRET;
 
-  console.log('sec', stipeSecret)
+  // console.log('sec', stipeSecret)
   const sig = ctx.req.header('stripe-signature');
 
-  console.log('sig', sig)
+  // console.log('sig', sig)
 
   let event;
 
