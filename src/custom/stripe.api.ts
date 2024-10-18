@@ -19,9 +19,9 @@ stripeApi.post('/stripe-rp-webhook', async (context) => {
   const stripe = new Stripe(STRIPE_SECRET_API_KEY);
   const signature = context.req.header('stripe-signature');
 
-  console.log('STRIPE_SECRET_API_KEY', STRIPE_SECRET_API_KEY);
-  console.log('STRIPE_WEBHOOK_SECRET', STRIPE_WEBHOOK_SECRET);
-  console.log('signature', signature);
+  // console.log('STRIPE_SECRET_API_KEY', STRIPE_SECRET_API_KEY);
+  // console.log('STRIPE_WEBHOOK_SECRET', STRIPE_WEBHOOK_SECRET);
+  // console.log('signature', signature);
 
   try {
     if (!signature) {
@@ -41,7 +41,7 @@ stripeApi.post('/stripe-rp-webhook', async (context) => {
       }
       default:
         log(context, { message: `Unhandled event type: ${event.type}, ` });
-        log(context, { message: `${event}` });
+        console.log('event--->', event);
         break;
     }
     return context.text('', 200);
