@@ -13,6 +13,8 @@ import { tusAPI } from './cms/api/tus';
 import { AuthRequest, Session, User } from 'lucia';
 import { initializeLucia } from './cms/auth/lucia';
 import { rifePlayerApi } from './custom/rife-player-api';
+import { stripeApi } from './custom/stripe.api';
+// import { stripeApi } from './custom/stripe.api';
 
 export type Variables = {
   authRequest: AuthRequest;
@@ -25,7 +27,7 @@ export type AppContext = Context<{ Bindings: Bindings; Variables: Variables }>;
 
 app.use('*', async (ctx, next) => {
   const path = ctx.req.path;
-  if (!path.includes('/public')) {
+  if (!path.includes('/public') && !path.includes('stripe')) {
     const auth = initializeLucia(ctx.env.D1DATA, ctx.env);
     const authRequest = auth.handleRequest(ctx);
     let session = await authRequest.validate();
@@ -104,5 +106,6 @@ app.route('/admin', admin);
 app.route('v1/migrate', migrate);
 app.route('/status', status);
 app.route('/tus', tusAPI);
+app.route('/v1', stripeApi);
 
 export default app;
