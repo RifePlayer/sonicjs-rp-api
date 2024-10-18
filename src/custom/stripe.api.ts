@@ -38,6 +38,12 @@ stripeApi.post('/stripe-rp-webhook', async (context) => {
         console.log('invoice.paid', event.data.object)
         break
       }
+      case 'customer.subscription.created': {
+        console.log('customer.subscription.created', event.data.object)
+        console.log('customer.subscription.created email', event.data.object.customer_email)
+
+        break
+      }
       default:
         break
     }
