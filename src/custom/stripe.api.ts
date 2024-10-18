@@ -15,6 +15,8 @@ stripeApi.get(`/stripe-rp-webhook`, (ctx) => {
 });
 
 stripeApi.post('/stripe-rp-webhook', async (context) => {
+  log(context, {message: 'STRIPE BEGIN'});
+
   const { STRIPE_SECRET_API_KEY, STRIPE_WEBHOOK_SECRET } = env(context);
   const stripe = new Stripe(STRIPE_SECRET_API_KEY);
   const signature = context.req.header('stripe-signature');
@@ -33,20 +35,25 @@ stripeApi.post('/stripe-rp-webhook', async (context) => {
       signature,
       STRIPE_WEBHOOK_SECRET
     );
+    
+    log(context, event.data.object);
+
     switch (event.type) {
       case 'invoice.paid': {
-        log('invoice.paid', event.data.object);
-        log('invoice.paid customer email', event.data.object.customer_email);
+        console.log(event.data.object);
+        log(context, {message: 'invoice.paid', event.data.object});
+        log(context, {message: 'invoice.paid email', event.data.object.customer_email});
         break;
       }
       case 'customer.subscription.created': {
-        console.log('customer.subscription.created', event.data.object)
-        console.log('customer.subscription.created email', event.data.object.customer_email)
-
+        log(context, {message: 'ustomer.subscription.created', event.data.object});
+        log(context, {message: 'invoice.paid email', event.data.object.customer_email});
+        console.log('customer.subscription.created email', event.data.object)
         break
       }
       default:
         log(context, { message: `Unhandled event type: ${event.type}, ` });
+
         console.log('event--->', event);
         break;
     }
