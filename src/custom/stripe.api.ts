@@ -11,11 +11,25 @@ const stripeApi = new Hono();
 // });
 
 stripeApi.get(`/stripe-rp-webhook`, (ctx) => {
+
+  log(ctx, {
+    level: 'verbose',
+    message: 'stripe controller test'
+  });
+
   return ctx.json({ received: true });
 });
 
 stripeApi.post('/stripe-rp-webhook', async (context) => {
+
+  log(context, {
+    level: 'verbose',
+    message: 'stripe post test'
+  });
+
+
   log(context, {message: 'STRIPE BEGIN'});
+  
 
   const { STRIPE_SECRET_API_KEY, STRIPE_WEBHOOK_SECRET } = env(context);
   const stripe = new Stripe(STRIPE_SECRET_API_KEY);
