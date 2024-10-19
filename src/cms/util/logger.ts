@@ -2,6 +2,12 @@ export async function log(ctx, data) {
   if (data.message) {
     console.log(data.message);
   }
+
+  if(data.level === 'verbose') {
+    //skip verbose logs
+    return;
+  }
+  
   const datadog_apikey =
     ctx && ctx.env && ctx.env.datadog_apikey ? ctx.env.datadog_apikey : null;
 
