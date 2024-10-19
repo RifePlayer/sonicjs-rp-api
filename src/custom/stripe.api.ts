@@ -13,7 +13,7 @@ const stripeApi = new Hono();
 stripeApi.get(`/stripe-rp-webhook`, (ctx) => {
 
   log(ctx, {
-    level: 'verbose',
+    level: 'debug',
     message: 'stripe controller test'
   });
 
@@ -23,7 +23,7 @@ stripeApi.get(`/stripe-rp-webhook`, (ctx) => {
 stripeApi.post('/stripe-rp-webhook', async (context) => {
 
   log(context, {
-    level: 'verbose',
+    level: 'debug',
     message: 'stripe post test'
   });
 
